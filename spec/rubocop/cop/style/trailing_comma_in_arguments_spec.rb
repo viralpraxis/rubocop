@@ -13,6 +13,17 @@ RSpec.describe RuboCop::Cop::Style::TrailingCommaInArguments, :config do
       RUBY
     end
 
+    it 'registers an offense for trailing comma in a `[]` method call' do
+      expect_offense(<<~RUBY)
+        some_method[a, b, c, ]
+                           ^ Avoid comma after the last parameter of a method call#{extra_info}.
+      RUBY
+
+      expect_correction(<<~RUBY)
+        some_method[a, b, c ]
+      RUBY
+    end
+
     it 'registers an offense for trailing comma preceded by whitespace in a method call' do
       expect_offense(<<~RUBY)
         some_method(a, b, c , )
