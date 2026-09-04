@@ -1,0 +1,1 @@
+* [#15669](https://github.com/rubocop/rubocop/pull/15669): Fix an error for `Style/FloatDivision` when using `EnforcedStyle: fdiv` and one operand of a float division is itself a parenthesized float division. ([@viralpraxis][])
