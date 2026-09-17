@@ -354,6 +354,42 @@ RSpec.describe RuboCop::Cop::Style::MethodDefParentheses, :config do
       RUBY
     end
 
+    it 'requires parens when the body is on the definition line' do
+      expect_no_offenses(<<~RUBY)
+        def func(a) end
+      RUBY
+    end
+
+    it 'requires parens when a non-empty body is on the definition line' do
+      expect_no_offenses(<<~RUBY)
+        def func(a) do_something end
+      RUBY
+    end
+
+    it 'requires parens when the body starts on the definition line but `end` is below' do
+      expect_no_offenses(<<~RUBY)
+        def func(a) do_something
+        end
+      RUBY
+    end
+
+    it 'requires parens when the parameter list is empty and the body is on the definition line' do
+      expect_no_offenses(<<~RUBY)
+        def func() end
+      RUBY
+    end
+
+    it 'removes parens when a semicolon separates the body on the definition line' do
+      expect_offense(<<~RUBY)
+        def func(a); end
+                ^^^ Use def without parentheses.
+      RUBY
+
+      expect_correction(<<~RUBY)
+        def func a; end
+      RUBY
+    end
+
     it 'reports an offense when the parameters begin on the method name line' do
       expect_offense(<<~RUBY)
         def func(a,

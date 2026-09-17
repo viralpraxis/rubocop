@@ -1,0 +1,1 @@
+* [#15723](https://github.com/rubocop/rubocop/pull/15723): Fix an incorrect autocorrect for `Style/MethodDefParentheses` when using `EnforcedStyle: require_no_parentheses` and the method body is on the same line as the closing parenthesis. ([@viralpraxis][])
