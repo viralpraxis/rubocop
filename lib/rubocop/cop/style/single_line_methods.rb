@@ -97,7 +97,7 @@ module RuboCop
 
         def correct_to_endless(corrector, node)
           receiver = "#{node.receiver.source}." if node.receiver
-          arguments = node.arguments.any? ? node.arguments.source : '()'
+          arguments = endless_arguments(node)
           body_source = method_body_source(node.body)
           replacement = "def #{receiver}#{node.method_name}#{arguments} = #{body_source}"
 
@@ -126,6 +126,13 @@ module RuboCop
             eol_comment: processed_source.comment_at_line(node.source_range.line),
             node: node, corrector: corrector
           )
+        end
+
+        def endless_arguments(node)
+          return '()' unless node.arguments.any?
+          return node.arguments.source if parentheses?(node.arguments)
+
+          "(#{node.arguments.source})"
         end
 
         def method_body_source(method_body)

@@ -1,0 +1,1 @@
+* [#15928](https://github.com/rubocop/rubocop/pull/15928): Fix an incorrect autocorrect for `Style/SingleLineMethods` when correcting a method definition with unparenthesized parameters to an endless definition. ([@viralpraxis][])

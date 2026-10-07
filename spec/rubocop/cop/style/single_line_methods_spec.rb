@@ -206,6 +206,12 @@ RSpec.describe RuboCop::Cop::Style::SingleLineMethods, :config do
         RUBY
       end
 
+      it 'adds parens when the parameters are not parenthesized' do
+        expect_correction(<<~RUBY.strip, source: 'def some_method a, b; body end')
+          def some_method(a, b) = body
+        RUBY
+      end
+
       it 'corrects to an endless method definition when method body is a literal' do
         expect_correction(<<~RUBY.strip, source: 'def some_method; 42 end')
           def some_method() = 42
@@ -226,6 +232,12 @@ RSpec.describe RuboCop::Cop::Style::SingleLineMethods, :config do
 
       it 'does not add parens if they are already present' do
         expect_correction(<<~RUBY.strip, source: 'def some_method() body end')
+          def some_method() = body
+        RUBY
+      end
+
+      it 'normalizes parens that contain only whitespace' do
+        expect_correction(<<~RUBY.strip, source: 'def some_method( ); body end')
           def some_method() = body
         RUBY
       end
